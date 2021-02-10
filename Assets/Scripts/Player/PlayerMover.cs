@@ -38,10 +38,10 @@ public class PlayerMover : MonoBehaviour
 
     private Vector3 GetDirection()
     {
-        float directionHor = Input.GetAxis("Horizontal");
-        float directionVert = Input.GetAxis("Vertical");
+        float directionX = Input.GetAxis("Horizontal");
+        float directionY = Input.GetAxis("Vertical");
 
-        Vector3 direction = new Vector3(directionHor, directionVert);
+        Vector3 direction = new Vector3(directionX, directionY);
 
         return direction;
     }
