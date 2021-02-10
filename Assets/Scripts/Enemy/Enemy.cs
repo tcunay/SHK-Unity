@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class Enemy : MonoBehaviour
 {
     public UnityAction Died;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.TryGetComponent(out Player player))

@@ -12,19 +12,27 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        _numberOfTemplate = _transformsTemplate.Length;
-
-        for (int i = 0; i < _transformsTemplate.Length; i++)
-        {
-            var enemy = Instantiate(_template, _transformsTemplate[i], Quaternion.identity);
-            enemy.Died += CountTheRemainingEnemies;
-
-        }
+        RememberInitNumberOfTemplates();
+        CreateTemplates();
     }
 
     private void OnDisable()
     {
         _template.Died -= CountTheRemainingEnemies;
+    }
+
+    private void CreateTemplates()
+    {
+        for (int i = 0; i < _transformsTemplate.Length; i++)
+        {
+            var enemy = Instantiate(_template, _transformsTemplate[i], Quaternion.identity);
+            enemy.Died += CountTheRemainingEnemies;
+        }
+    }
+
+    private void RememberInitNumberOfTemplates()
+    {
+        _numberOfTemplate = _transformsTemplate.Length;
     }
 
     private void CountTheRemainingEnemies()

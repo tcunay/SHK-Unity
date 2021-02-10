@@ -8,7 +8,6 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private bool _timer;
     [SerializeField] private float _time;
 
-    private Vector3 _direction;
     private float _currentTime;
 
     private void Update()
@@ -39,30 +38,12 @@ public class PlayerMover : MonoBehaviour
 
     private Vector3 GetDirection()
     {
-        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
-            _direction = new Vector3(-1, 1);
-        else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
-            _direction = new Vector3(1, 1);
-        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
-            _direction = new Vector3(-1, -1);
-        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
-            _direction = new Vector3(1, -1);
-        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.W))
-            _direction = new Vector3(0, 0);
-        else if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
-            _direction = new Vector3(0, 0);
-        else if (Input.GetKey(KeyCode.W))
-            _direction = new Vector3(0, 1);
-        else if (Input.GetKey(KeyCode.S))
-            _direction = new Vector3(0, -1);
-        else if (Input.GetKey(KeyCode.A))
-            _direction = new Vector3(-1, 0);
-        else if (Input.GetKey(KeyCode.D))
-            _direction = new Vector3(1, 0);
-        else
-            _direction = new Vector3(0, 0);
+        float directionHor = Input.GetAxis("Horizontal");
+        float directionVert = Input.GetAxis("Vertical");
 
-        return _direction;
+        Vector3 direction = new Vector3(directionHor, directionVert);
+
+        return direction;
     }
 
 }
