@@ -2,13 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Player))]
 public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    [SerializeField] private bool _timer;
     [SerializeField] private float _time;
 
-    private float _currentTime;
+    private Player _player;
+    private float _currentSpeed;
+    private int _speedFactor = 1;
+    private float _currentTime = 0;
+
+    private void Awake()
+    {
+        _player = GetComponent<Player>();
+    }
+
+    private void Start()
+    {
+        _currentSpeed = _speed * _speedFactor;
+    }
+
+    private void OnEnable()
+    {
+        _player.EnemyKilled += BoostSpeed;
+    }
+    private void OnDisable()
+    {
+        _player.EnemyKilled -= BoostSpeed;
+    }
 
     private void Update()
     {
@@ -16,16 +38,20 @@ public class PlayerMover : MonoBehaviour
         Move(GetDirection());
     }
 
+    public void BoostSpeed()
+    {
+        _speedFactor++;
+    }
+
     public void ReduceSpeed()
     {
-        if (_timer)
+        if (_speedFactor > 1)
         {
             _currentTime += Time.deltaTime;
 
             if(_currentTime >= _time)
             {
-                _timer = false;
-                _speed /= 2;
+                _speedFactor--;
                 _currentTime = 0;
             }
         }
@@ -33,7 +59,7 @@ public class PlayerMover : MonoBehaviour
 
     private void Move(Vector3 direction)
     {
-        transform.Translate(direction * _speed * Time.deltaTime);
+        transform.Translate(direction * _speed * _speedFactor * Time.deltaTime);
     }
 
     private Vector3 GetDirection()
@@ -41,9 +67,6 @@ public class PlayerMover : MonoBehaviour
         float directionX = Input.GetAxis("Horizontal");
         float directionY = Input.GetAxis("Vertical");
 
-        Vector3 direction = new Vector3(directionX, directionY);
-
-        return direction;
+        return new Vector3(directionX, directionY);
     }
-
 }

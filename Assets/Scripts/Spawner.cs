@@ -8,17 +8,21 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Enemy _template;
     [SerializeField] private Vector2[] _transformsTemplate;
 
+    private List<Enemy> _enemies = new List<Enemy>();
     private int _numberOfTemplate;
 
     private void Start()
     {
-        RememberInitNumberOfTemplates();
+        RememberStartNumberOfTemplates();
         CreateTemplates();
     }
 
     private void OnDisable()
     {
-        _template.Died -= CountTheRemainingEnemies;
+        foreach (var enemy in _enemies)
+        {
+            enemy.Died -= CountTheRemainingEnemies;
+        }
     }
 
     private void CreateTemplates()
@@ -26,11 +30,12 @@ public class Spawner : MonoBehaviour
         for (int i = 0; i < _transformsTemplate.Length; i++)
         {
             var enemy = Instantiate(_template, _transformsTemplate[i], Quaternion.identity);
+            _enemies.Add(enemy);
             enemy.Died += CountTheRemainingEnemies;
         }
     }
 
-    private void RememberInitNumberOfTemplates()
+    private void RememberStartNumberOfTemplates()
     {
         _numberOfTemplate = _transformsTemplate.Length;
     }
@@ -43,5 +48,4 @@ public class Spawner : MonoBehaviour
             _game.GameOver();
         }
     }
-
 }
