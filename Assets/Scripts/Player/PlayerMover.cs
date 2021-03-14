@@ -9,18 +9,12 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private float _time;
 
     private Player _player;
-    private float _currentSpeed;
     private int _speedFactor = 1;
     private float _currentTime = 0;
 
     private void Awake()
     {
         _player = GetComponent<Player>();
-    }
-
-    private void Start()
-    {
-        _currentSpeed = _speed * _speedFactor;
     }
 
     private void OnEnable()
