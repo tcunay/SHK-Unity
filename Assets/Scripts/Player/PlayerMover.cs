@@ -6,10 +6,11 @@ using UnityEngine;
 public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    [SerializeField] private float _time;
+    [SerializeField] private float _oneBoostTime;
 
     private Player _player;
     private int _speedFactor = 1;
+    private int _timeFactor = 0;
     private float _currentTime = 0;
 
     private void Awake()
@@ -19,35 +20,40 @@ public class PlayerMover : MonoBehaviour
 
     private void OnEnable()
     {
-        _player.EnemyKilled += BoostSpeed;
+        _player.BoosterRaised += Boost;
     }
+
     private void OnDisable()
     {
-        _player.EnemyKilled -= BoostSpeed;
+        _player.BoosterRaised -= Boost;
     }
 
     private void Update()
     {
-        ReduceSpeed();
+        TryReduceSpeed();
         Move(GetDirection());
     }
 
-    public void BoostSpeed()
+    private void Boost()
     {
         _speedFactor++;
+        _timeFactor++;
+    }
+    private void UnBoost()
+    {
+        _speedFactor--;
+        _timeFactor--;
     }
 
-    public void ReduceSpeed()
+    public void TryReduceSpeed()
     {
-        if (_speedFactor > 1)
-        {
-            _currentTime += Time.deltaTime;
+        if (_timeFactor <= 0) return;
 
-            if(_currentTime >= _time)
-            {
-                _speedFactor--;
-                _currentTime = 0;
-            }
+        _currentTime += Time.deltaTime;
+        if (_currentTime >= _oneBoostTime)
+        {
+            UnBoost();
+            _currentTime = 0;
         }
     }
 

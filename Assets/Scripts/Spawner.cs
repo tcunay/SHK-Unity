@@ -21,7 +21,7 @@ public class Spawner : MonoBehaviour
     {
         foreach (var enemy in _enemies)
         {
-            enemy.Died -= CountTheRemainingEnemies;
+            enemy.Dying -= CountTheRemainingEnemies;
         }
     }
 
@@ -31,7 +31,7 @@ public class Spawner : MonoBehaviour
         {
             var enemy = Instantiate(_template, _transformsTemplate[i], Quaternion.identity);
             _enemies.Add(enemy);
-            enemy.Died += CountTheRemainingEnemies;
+            enemy.Dying += CountTheRemainingEnemies;
         }
     }
 

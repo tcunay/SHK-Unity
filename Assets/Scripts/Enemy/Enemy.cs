@@ -6,11 +6,11 @@ using UnityEngine.Events;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Enemy : MonoBehaviour
 {
-    public event UnityAction Died;
+    public event UnityAction Dying;
 
     public void Die()
     {
-        Died?.Invoke();
+        Dying?.Invoke();
         Destroy(gameObject);
     }
 }

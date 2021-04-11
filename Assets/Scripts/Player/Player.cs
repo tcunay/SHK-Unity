@@ -8,15 +8,14 @@ using UnityEngine.Events;
 [RequireComponent(typeof(PlayerMover))]
 public class Player : MonoBehaviour
 {
-    public event UnityAction EnemyKilled;
+    public event UnityAction BoosterRaised;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.TryGetComponent(out Enemy enemy))
         {
-            EnemyKilled?.Invoke();
+            BoosterRaised?.Invoke();
             enemy.Die();
         }
     }
-
 }
