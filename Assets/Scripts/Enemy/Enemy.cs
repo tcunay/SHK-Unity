@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(BoxCollider2D))]
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IBooster
 {
     public event UnityAction Dying;
 

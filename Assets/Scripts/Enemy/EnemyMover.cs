@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyMover : MonoBehaviour
 {
@@ -11,7 +9,7 @@ public class EnemyMover : MonoBehaviour
 
     private void Start()
     {
-        TryMoveNext();
+        MoveNext();
     }
 
     private void Update()
@@ -21,13 +19,22 @@ public class EnemyMover : MonoBehaviour
 
     private void Move()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _target, _speed * Time.deltaTime);
-        TryMoveNext();
+        if (IsRiched() == true)
+            MoveNext();
+        else
+            transform.position = Vector3.MoveTowards(transform.position, _target, _speed * Time.deltaTime);
     }
 
-    private void TryMoveNext()
+    private bool IsRiched()
     {
         if (transform.position == _target)
-            _target = Random.insideUnitCircle * _radius;
+            return true;
+        else
+            return false;
+    }
+
+    private void MoveNext()
+    {
+        _target = Random.insideUnitCircle * _radius;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Player))]
@@ -10,8 +9,6 @@ public class PlayerMover : MonoBehaviour
 
     private Player _player;
     private int _speedFactor = 1;
-    private int _timeFactor = 0;
-    private float _currentTime = 0;
 
     private void Awake()
     {
@@ -30,31 +27,19 @@ public class PlayerMover : MonoBehaviour
 
     private void Update()
     {
-        TryReduceSpeed();
         Move(GetDirection());
     }
 
     private void Boost()
     {
+        StartCoroutine(BoostSpeed());
+    }
+
+    private IEnumerator BoostSpeed()
+    {
         _speedFactor++;
-        _timeFactor++;
-    }
-    private void UnBoost()
-    {
+        yield return new WaitForSeconds(_oneBoostTime);
         _speedFactor--;
-        _timeFactor--;
-    }
-
-    public void TryReduceSpeed()
-    {
-        if (_timeFactor <= 0) return;
-
-        _currentTime += Time.deltaTime;
-        if (_currentTime >= _oneBoostTime)
-        {
-            UnBoost();
-            _currentTime = 0;
-        }
     }
 
     private void Move(Vector3 direction)
