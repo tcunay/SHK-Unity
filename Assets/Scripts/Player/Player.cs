@@ -8,10 +8,14 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.TryGetComponent(out IBooster booster))
+        if(collision.gameObject.TryGetComponent(out Booster booster))
         {
             BoosterRaised?.Invoke();
-            booster.Die();
+        }
+
+        if(collision.gameObject.TryGetComponent(out Enemy enemy))
+        {
+            enemy.Die();
         }
     }
 }

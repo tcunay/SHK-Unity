@@ -27,10 +27,7 @@ public class EnemyMover : MonoBehaviour
 
     private bool IsRiched()
     {
-        if (transform.position == _target)
-            return true;
-        else
-            return false;
+        return transform.position == _target;
     }
 
     private void MoveNext()
