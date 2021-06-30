@@ -12,7 +12,6 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        RememberStartNumberOfTemplates();
         CreateTemplates();
     }
 
@@ -20,7 +19,7 @@ public class Spawner : MonoBehaviour
     {
         foreach (var enemy in _enemies)
         {
-            enemy.Dying -= CountTheRemainingEnemies;
+            enemy.Dying -= HandleEnemyDying;
         }
     }
 
@@ -30,19 +29,25 @@ public class Spawner : MonoBehaviour
         {
             var enemy = Instantiate(_template, _transformsTemplate[i], Quaternion.identity);
             _enemies.Add(enemy);
-            enemy.Dying += CountTheRemainingEnemies;
+            enemy.Dying += HandleEnemyDying;
+            _numberOfTemplate++;
         }
     }
 
-    private void RememberStartNumberOfTemplates()
+    private void HandleEnemyDying()
     {
-        _numberOfTemplate = _transformsTemplate.Length;
+        SubtractEnemy();
+        TryFinishGame();
     }
 
-    private void CountTheRemainingEnemies()
+    private void SubtractEnemy()
     {
         --_numberOfTemplate;
-        if(_numberOfTemplate == 0)
+    }
+
+    private void TryFinishGame()
+    {
+        if (_numberOfTemplate == 0)
         {
             _game.GameOver();
         }

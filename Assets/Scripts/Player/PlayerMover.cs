@@ -1,36 +1,22 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Player))]
 public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _oneBoostTime;
 
-    private Player _player;
+    private const string _horizontalAxisName = "Horizontal";
+    private const string _verticalAxisName = "Vertical";
+
     private int _speedFactor = 1;
-
-    private void Awake()
-    {
-        _player = GetComponent<Player>();
-    }
-
-    private void OnEnable()
-    {
-        _player.BoosterRaised += Boost;
-    }
-
-    private void OnDisable()
-    {
-        _player.BoosterRaised -= Boost;
-    }
 
     private void Update()
     {
         Move(GetDirection());
     }
 
-    private void Boost()
+    public void Boost()
     {
         StartCoroutine(BoostSpeed());
     }
@@ -49,8 +35,8 @@ public class PlayerMover : MonoBehaviour
 
     private Vector3 GetDirection()
     {
-        float directionX = Input.GetAxis("Horizontal");
-        float directionY = Input.GetAxis("Vertical");
+        float directionX = Input.GetAxis(_horizontalAxisName);
+        float directionY = Input.GetAxis(_verticalAxisName);
 
         return new Vector3(directionX, directionY);
     }
